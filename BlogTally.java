@@ -23,49 +23,46 @@ public class BlogTally
 	final static String API_URL_BEFORE_BLOG = "http://api.tumblr.com/v2/blog/";
 	final static String API_URL_BEFORE_TIME = "/likes?limit=50&after=";
 	final static String API_URL_BEFORE_KEY = "&api_key=";
+	final static int LIKES_PER_KEY_USE = 50;
 	
 	public static void main(String[] args)
 	{
-		final String API_URL_BLOG = "<<YOUR BLOG HERE>>";
-		final String API_KEY = "<<YOUR API KEY HERE>>";
-		final int KEY_USE_LIMIT = 40; //To prevent runaway usage of the API key
+		Scanner in = new Scanner(System.in);
 		
-		//Scanner in = new Scanner(System.in); //Let's not implement any user choice yet.
+		System.out.println("Enter blog URL:");
+		String APIURLblog = in.nextLine();
+		System.out.println("Enter API key");
+		String APIkey = in.nextLine();
+		System.out.println("Enter an estimate for how many Likes need to be tallied");
+		int numberOfLikes = in.nextInt();
+		in.nextLine();
+		int keyUseLimit = (numberOfLikes / LIKES_PER_KEY_USE) + 1; //To prevent runaway usage of the API key
+		
 		Map<String, Integer> blogTally = new HashMap<String, Integer>();
 		
 		String foundTime = FIRST_TIMESTAMP_MINUS_ONE;
 		int keyUses = 0;
 		int likesAnalyzed = 0;
-		int likesAnalyzedBulk = 0;
+		//int likesAnalyzedBulk = 0;
 		boolean thereAreMoreLikes = true;
 		
 		System.out.println("Tallying . . .");
 	    
-	    while(thereAreMoreLikes && (keyUses < KEY_USE_LIMIT))
+	    while(thereAreMoreLikes && (keyUses < keyUseLimit))
 	    {   
 	    	String enteredURL = API_URL_BEFORE_BLOG
-	    					  + API_URL_BLOG
+	    					  + APIURLblog
 	    					  + API_URL_BEFORE_TIME
 	    					  + foundTime
 	    					  + API_URL_BEFORE_KEY
-	    					  + API_KEY;
-	    	keyUses++; //The retrieval of Likes from a single API call not only returns an array of Likes information but
-	    	//also information on whether or not there are more Likes to be found in subsequent calls. Therefore,
-	    	//the next few lines can't be done in a separate method yet.
-	    	JSONArray likedPostsArray;
-	        try
-	        {
-	    	    URL enteredURLObject = new URL(enteredURL);
-	    	    JSONParser parser = new JSONParser();
-	    	    Object obj = parser.parse(new BufferedReader(
-	    	            new InputStreamReader(enteredURLObject.openStream())));
-	    	    
-	    	    JSONObject root = (JSONObject) obj;
-	    	    JSONObject response = (JSONObject) root.get("response");
-	    	    likedPostsArray = (JSONArray) response.get("liked_posts");
-	    	    
-	    	    //System.out.printf("The number of Likes in this URL is %d\n", likedPostsArray.size());
-	      	}
+	    					  + APIkey;
+	    	
+			keyUses++;
+			JSONArray likedPostsArray;
+			try
+			{
+				likedPostsArray = retrieveLikesArray(enteredURL);
+			}
 	        catch (Exception e)
 	        {
 	        	e.printStackTrace();
@@ -79,7 +76,7 @@ public class BlogTally
 	    	{
 	    		System.out.printf("MISMATCH %d", likedPostsArray.size() - sourceNameArrayList.size());
 	    	}	
-	    	likesAnalyzedBulk += sourceNameArrayList.size();
+	    	//likesAnalyzedBulk += sourceNameArrayList.size();
 	    	
 	    	if (sourceNameArrayList.size() != 0)
 	    	{
@@ -117,7 +114,25 @@ public class BlogTally
 	    //System.out.printf("%d is the total size of all analyzed arrays", likesAnalyzedBulk);
 	    System.out.printf("API key was used %d times\n", keyUses);
 	    
-	    //in.close();
+	    in.close();
+	}
+	
+	private static JSONArray retrieveLikesArray(String enteredURL) throws Exception
+	{
+    	JSONArray likedPostsArray;
+    	
+	    URL enteredURLObject = new URL(enteredURL);
+	    JSONParser parser = new JSONParser();
+	    Object obj = parser.parse(new BufferedReader(
+	            new InputStreamReader(enteredURLObject.openStream())));
+	    
+	    JSONObject root = (JSONObject) obj;
+	    JSONObject response = (JSONObject) root.get("response");
+	    likedPostsArray = (JSONArray) response.get("liked_posts");
+	    
+	    //System.out.printf("The number of Likes in this URL is %d\n", likedPostsArray.size());
+
+        return likedPostsArray;
 	}
 	  
 	private static ArrayList<String> getLikeSources(JSONArray likedPostsArray)
