@@ -1,5 +1,5 @@
 # blog-tally
-Tallies the number of times a Tumblr blog has originally uploaded one of your Likes.
+Tallies the number of times a Tumblr blog has originally uploaded one of your Likes. //
 Created by Orion Guan on February 20th, 2017.
 
 ## Requirements
