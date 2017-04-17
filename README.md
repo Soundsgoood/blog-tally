@@ -8,6 +8,6 @@ Created by Orion Guan on February 20th, 2017.
 
 ## Future Work
 * This app may get its own API key.
-* Error messages will become more specific and polished.
+* Error messages will become more specific to certain API error messages.
 * The tally will include information on whether or not you have followed the listed blogs.
 
