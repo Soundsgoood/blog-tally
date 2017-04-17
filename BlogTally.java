@@ -26,8 +26,8 @@ public class BlogTally
 	
 	public static void main(String[] args)
 	{
-		final String API_URL_BLOG = "sleepycoaster.tumblr.com";
-		final String API_KEY = "2BxgovaoE4o7AL5kOjH6z5br5km7OEX7bwRpzDoQYEtZOi5SBX";
+		final String API_URL_BLOG = "<<YOUR BLOG HERE>>";
+		final String API_KEY = "<<YOUR API KEY HERE>>";
 		final int KEY_USE_LIMIT = 40; //To prevent runaway usage of the API key
 		
 		//Scanner in = new Scanner(System.in); //Let's not implement any user choice yet.
