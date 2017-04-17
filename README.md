@@ -4,8 +4,9 @@ Tallies the number of times a Tumblr blog has originally uploaded one of your Li
 Created by Orion Guan on February 20th, 2017.
 
 ## Requirements
-* Requires json-simple-1.1.1.jar library in the directory of BlogTally.java.
+* Requires json-simple-1.1.1.jar library in the directory of BlogTally.java. (included in repository)
 * The blog must have "Share Posts You Like" enabled under blog settings.
+* You must supply a blog URL and an API key.
 
 ## Future Work
 * This app may get its own API key.
