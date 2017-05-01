@@ -117,6 +117,12 @@ public class BlogTally
 	    in.close();
 	}
 	
+	/**
+	  * Retrieves an array of JSON data, each element of which gives
+	  * information about a Like displayed by the Tumblr API.
+	  * @param enteredURL The URL of the JSON data.
+	  * @return An array of data respective to a list of Likes from the page.
+	  */
 	private static JSONArray retrieveLikesArray(String enteredURL) throws Exception
 	{
     	JSONArray likedPostsArray;
@@ -134,7 +140,14 @@ public class BlogTally
 
         return likedPostsArray;
 	}
-	  
+	
+	/**
+	  * Interprets the array of JSON data to return an ArrayList of original
+	  * artist names.
+	  * @param likedPostsArray An array of data respective to a list of Likes
+	  * from a Tumblr API page.
+	  * @return An ArrayList of artist names.
+	  */
 	private static ArrayList<String> getLikeSources(JSONArray likedPostsArray)
 	{
 		ArrayList<String> sourceList = new ArrayList<>();
@@ -169,6 +182,13 @@ public class BlogTally
 	    return sourceList;
 	}
 	  
+	/**
+	  * Finds the timestamp for the most recent Like whose information is
+	  * displayed on a Tumblr API page.
+	  * @param likedPostsArray A JSON array of Likes information.
+	  * @return The numerical String for the timestamp of the most recent
+	  * Like displayed.
+	  */
 	private static String grabFoundTime(JSONArray likedPostsArray)
 	{
 		if (likedPostsArray.size() > 0)
@@ -182,7 +202,12 @@ public class BlogTally
 			return null;
 		}
 	}
-	  
+	 
+	/**
+	  *	Prints a hashmap of blog names and tally counts in order from greatest
+	  * tally to smallest tally.
+	  * @param tally The hashmap of blog name keys and tally values.
+	  */ 
 	private static void printOrdered(Map<String, Integer> tally)
 	{
 		while (tally.size() > 0)
